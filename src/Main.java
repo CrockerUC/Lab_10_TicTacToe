@@ -18,14 +18,46 @@ public class Main
             int moveCount = 0;
             boolean gameOver = false;
 
+            while(!gameOver)
+            {
+                display();
 
+                int row;
+                int col;
 
+                do
+                {
+                    row = SafeInput.getRangedInt(in,player + " enter row (1-3): ", 1, 3)-1;
+                    col = SafeInput.getRangedInt(in,player + " enter column (1-3): ", 1, 3)-1;
+                } while(!isValidMove(row, col));
 
+                board[row][col] = player;
+                moveCount++;
 
+                if(moveCount >= 5) {
+                    if (isWin(player)) {
+                        display();
+                        System.out.println(player + "wins!");
+                        gameOver = true;
+                    } else if (isTie()) {
+                        display();
+                        System.out.println("It's a tie!");
+                        gameOver = true;
+                    }
+                }
+                if(!gameOver)
+                {
+                    if(player.equals("X")) player = "O";
+                    else player = "X";
+                }
+            }
 
+            playAgain = SafeInput.getYNConfirm(in, "Play again? (Y/N): ");
 
-            playAgain = SafeInput.getYNConfirm(in,"Play again? (Y/N): ");
         }while(playAgain);
+
+        System.out.println("Thanks for playing!");
+        in.close();
     }
 
     private static void clearBoard()
@@ -44,9 +76,14 @@ public class Main
 
     }
 
-    private static void isValidMove(int row, int col)
+    private static boolean isValidMove(int row, int col)
     {
+        return false;
+    }
 
+    private static boolean isWin(String player)
+    {
+        return false;
     }
 
     private static boolean isRowWin(String player)
