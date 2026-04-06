@@ -6,6 +6,11 @@ public class Main
     private static final int COLUMNS = 3;
     private static final String[][] board = new String[ROWS][COLUMNS];
 
+    /**
+     * Main method for the Tic-Tac-Toe game. The game is played between two players, X and O, on a 3x3 grid.
+     * Players take turns entering their moves, and the game ends when a player wins or the board is full.
+     * @param args command line arguments
+     */
     public static void main(String[] args)
     {
         Scanner in = new Scanner(System.in);
@@ -60,6 +65,9 @@ public class Main
         in.close();
     }
 
+    /**
+     * Clears the game board by setting all cells to an empty space.
+     */
     private static void clearBoard()
     {
         for (int row = 0; row < ROWS; row++)
@@ -71,6 +79,9 @@ public class Main
         }
     }
 
+    /**
+     * Displays the current state of the game board.
+     */
     private static void display()
     {
         System.out.println();
@@ -87,6 +98,12 @@ public class Main
         System.out.println();
     }
 
+    /**
+     * Checks if a given move is valid by verifying if the specified cell is empty.
+     * @param row the row index of the move
+     * @param col the column index of the move
+     * @return true if the move is valid, false otherwise
+     */
     private static boolean isValidMove(int row, int col)
     {
         if(board[row][col].equals(" ")) return true;
@@ -94,11 +111,21 @@ public class Main
         return false;
     }
 
+    /**
+     * Checks if the current player has won the game by checking rows, columns, and diagonals.
+     * @param player the current player's symbol (X or O)
+     * @return true if the player has won, false otherwise
+     */
     private static boolean isWin(String player)
     {
         return isRowWin(player) || isColWin(player) || isDiagonalWin(player);
     }
 
+    /**
+     * Checks if the current player has won by forming a row of their symbol.
+     * @param player the current player's symbol (X or O)
+     * @return true if the player has won with a row, false otherwise
+     */
     private static boolean isRowWin(String player)
     {
         for(int row = 0; row < ROWS; row++)
@@ -108,6 +135,11 @@ public class Main
         return false;
     }
 
+    /**
+     * Checks if the current player has won by forming a column of their symbol.
+     * @param player the current player's symbol (X or O)
+     * @return true if the player has won with a column, false otherwise
+     */
     private static boolean isColWin(String player)
     {
         for(int col = 0; col < COLUMNS; col++)
@@ -117,12 +149,21 @@ public class Main
         return false;
     }
 
+    /**
+     * Checks if the current player has won by forming a diagonal of their symbol.
+     * @param player the current player's symbol (X or O)
+     * @return true if the player has won with a diagonal, false otherwise
+     */
     private static boolean isDiagonalWin(String player)
     {
         return (board[0][0].equals(player) && board[1][1].equals(player) && board[2][2].equals(player))
                 || (board[0][2].equals(player) && board[1][1].equals(player) && board[2][0].equals(player));
     }
 
+    /**
+     * Checks if the game has ended in a tie (no more empty spaces on the board).
+     * @return true if the game is a tie, false otherwise
+     */
     private static boolean isTie()
     {
         for(int row = 0; row < ROWS; row++)
