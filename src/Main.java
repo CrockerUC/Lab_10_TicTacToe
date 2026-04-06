@@ -4,7 +4,7 @@ public class Main
 {
     private static final int ROWS = 3;
     private static final int COLUMNS = 3;
-    private static String board [][] = new String[ROWS][COLUMNS];
+    private static final String[][] board = new String[ROWS][COLUMNS];
 
     public static void main(String[] args)
     {
@@ -27,8 +27,8 @@ public class Main
 
                 do
                 {
-                    row = SafeInput.getRangedInt(in,player + " enter row (1-3): ", 1, 3)-1;
-                    col = SafeInput.getRangedInt(in,player + " enter column (1-3): ", 1, 3)-1;
+                    row = SafeInput.getRangedInt(in,player + " enter row (1-3)", 1, 3)-1;
+                    col = SafeInput.getRangedInt(in,player + " enter column (1-3)", 1, 3)-1;
                 } while(!isValidMove(row, col));
 
                 board[row][col] = player;
@@ -37,7 +37,7 @@ public class Main
                 if(moveCount >= 5) {
                     if (isWin(player)) {
                         display();
-                        System.out.println(player + "wins!");
+                        System.out.println(player + " wins!");
                         gameOver = true;
                     } else if (isTie()) {
                         display();
@@ -52,7 +52,7 @@ public class Main
                 }
             }
 
-            playAgain = SafeInput.getYNConfirm(in, "Play again? (Y/N): ");
+            playAgain = SafeInput.getYNConfirm(in, "Play again?");
 
         }while(playAgain);
 
@@ -73,36 +73,65 @@ public class Main
 
     private static void display()
     {
-
+        System.out.println();
+        for (int row = 0; row < ROWS; row++)
+        {
+            System.out.print(" ");
+            for (int col = 0; col < COLUMNS; col++) {
+                System.out.print(board[row][col]);
+                if (col < COLUMNS - 1) System.out.print(" | ");
+            }
+            System.out.println();
+            if(row < ROWS - 1) System.out.println("---+---+---");
+        }
+        System.out.println();
     }
 
     private static boolean isValidMove(int row, int col)
     {
+        if(board[row][col].equals(" ")) return true;
+        System.out.println("That space is already taken!");
         return false;
     }
 
     private static boolean isWin(String player)
     {
-        return false;
+        return isRowWin(player) || isColWin(player) || isDiagonalWin(player);
     }
 
     private static boolean isRowWin(String player)
     {
+        for(int row = 0; row < ROWS; row++)
+        {
+            if(board[row][0].equals(player) && board[row][1].equals(player) && board[row][2].equals(player)) return true;
+        }
         return false;
     }
 
     private static boolean isColWin(String player)
     {
+        for(int col = 0; col < COLUMNS; col++)
+        {
+            if(board[0][col].equals(player) && board[1][col].equals(player) && board[2][col].equals(player)) return true;
+        }
         return false;
     }
 
     private static boolean isDiagonalWin(String player)
     {
-        return false;
+        return (board[0][0].equals(player) && board[1][1].equals(player) && board[2][2].equals(player))
+                || (board[0][2].equals(player) && board[1][1].equals(player) && board[2][0].equals(player));
     }
 
     private static boolean isTie()
     {
-        return false;
+        for(int row = 0; row < ROWS; row++)
+        {
+            for(int col = 0; col < COLUMNS; col++)
+            {
+                if(board[row][col].equals(" ")) return false;
+            }
+        }
+        return true;
     }
 }
